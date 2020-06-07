@@ -15,7 +15,18 @@ X_test<-t(as.matrix(df_test[,-1]))
 Y_test<-matrix(df_test[,1]>0,ncol=nrow(df_test))
 
 
- 
+parameters<-nn_model(X, Y, n_h=40, num_iterations = 20000, print_cost=T,learning_rate=.025)
+
+cat("train\n")
+predictions<-predict(parameters,X)
+prop.table(table(predictions==Y))
+prop.table(table(predictions,Y))
+
+cat("test\n")
+# model suffers from overfitting. need to regularize
+predictions_test<-predict(parameters,X_test)
+prop.table(table(predictions_test==Y_test))
+prop.table(table(predictions_test,Y_test))
 
 ################### nn3 ###############
 # source("C:/Users/k_min/Documents/ML2020/nn3.R")
@@ -39,4 +50,5 @@ cat("test LR\n")
 df_test_lr<-df_test
 df_test_lr$Response<-(df_test_lr$Response>0)
 predicted_lr_test<-predictLR(optimal_train,df_test_lr[,-1])
- 
+prop.table(table((predicted_lr_test>.5)==df_test_lr$Response))
+prop.table(table((predicted_lr_test>.5),df_test_lr$Response))
