@@ -5,23 +5,23 @@ library(openxlsx)
 library(ggplot2)
 library(magrittr)
 
-X<-read.xlsx("PlanarX.xlsx")
-Y<-read.xlsx("PlanarY.xlsx")
-names(X)<-paste0("V",names(X))
-names(Y)<-"color_cd"
-
-ggplot(data=X)+geom_point(aes(x=V0,y=V1,color=as.factor(Y$color_cd)))+
-  scale_color_manual(values = c("red","blue"))+
-  labs(color="Type")+
-  theme(panel.background = element_rect(fill="grey50"))
+# X<-read.xlsx("PlanarX.xlsx")
+# Y<-read.xlsx("PlanarY.xlsx")
+# names(X)<-paste0("V",names(X))
+# names(Y)<-"color_cd"
+# 
+# ggplot(data=X)+geom_point(aes(x=V0,y=V1,color=as.factor(Y$color_cd)))+
+#   scale_color_manual(values = c("red","blue"))+
+#   labs(color="Type")+
+#   theme(panel.background = element_rect(fill="grey50"))
 
 set.seed(1)
 # transpose matrix so that each observation is one column
-X<-t(as.matrix(X))
-Y<-t(as.matrix(Y))
-
-shape_X<-dim(X)
-shape_Y<-dim(Y)
+# X<-t(as.matrix(X))
+# Y<-t(as.matrix(Y))
+# 
+# shape_X<-dim(X)
+# shape_Y<-dim(Y)
 
 # layer sizes
 
@@ -68,15 +68,14 @@ forward_propagation<-function(X,parameters){
 }
 
 # Test
-parameters<-initialize_parameters(layer_sizes(X,Y))
-cache<-forward_propagation(X,initialize_parameters(layer_sizes(X,Y)))
+
 
 compute_cost<-function(A2,Y){
   m<-dim(Y)[2]
   cost<-unname((-1/m)*(log(A2)%*%t(Y)+log(1-A2)%*%(1-t(Y)))[1,1])
 }
  
-cost<-compute_cost(tt[["A2"]],Y)
+
 
 # backward propagation
 
@@ -99,10 +98,10 @@ backward_propagation<-function(parameters,cache,X,Y){
   return(list(dW1=dW1,dW2=dW2,db1=db1,db2=db2))
 }
 
-backward_propagation(parameters,cache,X,Y)
+
 
 # update parameters
-update_parameters<-function(parameters, grads, learning_rate = 1.2){
+update_parameters<-function(parameters, grads, learning_rate){
   # Retrieve each parameter from the dictionary "parameters"
   W1 <- parameters[["W1"]]
   b1 <- parameters[["b1"]]
@@ -130,14 +129,13 @@ update_parameters<-function(parameters, grads, learning_rate = 1.2){
 
 #update_parameters(parameters, backward_propagation(parameters,cache,X,Y), learning_rate = 1.2)
 
-nn_model<-function(X, Y, n_h, num_iterations = 10000, print_cost=F){
+nn_model<-function(X, Y, n_h, num_iterations = 10000, print_cost=F,learning_rate = 1.2){
   set.seed(3)
   n_x<-layer_sizes(X, Y)[1]
   n_y<-layer_sizes(X, Y)[3]
   
   #initialize parameters
   parameters<-initialize_parameters(c(n_x,n_h,n_y))
-  
   # gradient descent
   for (i in 1:num_iterations){
     # forward
@@ -146,9 +144,10 @@ nn_model<-function(X, Y, n_h, num_iterations = 10000, print_cost=F){
     cost<-compute_cost(cache[["A2"]],Y)
     # backpropagation
     grads<-backward_propagation(parameters,cache,X,Y)
-    # parameter update
-    parameters<-update_parameters(parameters,grads) 
     if (print_cost & i%%1000==0) print(cost)
+    # parameter update
+    parameters<-update_parameters(parameters,grads,learning_rate) 
+    
   }
   return(parameters)
 }
@@ -161,7 +160,7 @@ predict<-function(parameters,X){
   predictions<-cache[["A2"]]>.5
 }
 
-parameters<-nn_model(X, Y, n_h=4, num_iterations = 10000, print_cost=F)
-predictions<-predict(parameters,X)
-prop.table(table(predictions==Y))
+# parameters<-nn_model(X, Y, n_h=4, num_iterations = 10000, print_cost=F)
+# predictions<-predict(parameters,X)
+# prop.table(table(predictions==Y))
 
