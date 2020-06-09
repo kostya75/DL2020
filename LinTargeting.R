@@ -29,4 +29,6 @@ Y_lin_test<-matrix(df_test[,1],ncol=nrow(df_test))
 # parameters<-update_parameters(parameters,grads,learning_rate=1.2)
 
 
-tt<-lin_nn_model(X, Y_lin, n_h=40, num_iterations = 50000, print_cost=T,learning_rate = .25)
+tt<-lin_nn_model(X, Y_lin, n_h=40, num_iterations = 50000, print_cost=T,learning_rate = .025)
+
+Y_lin_pred<-lin_predict(tt,X_test)
