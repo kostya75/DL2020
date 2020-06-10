@@ -29,4 +29,5 @@ RelU_grad<-function(ZZ,leaky){
 
 
 
-tt<-rel_nn_model(X, Y_lin, n_h=40, num_iterations = 10000, print_cost=T,learning_rate = .05)
+tt<-rel_nn_model(X, Y_lin, n_h=50, num_iterations = 5000, print_cost=T,learning_rate = .05)
+par_rel<-rel_predict(parameters,X)

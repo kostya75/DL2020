@@ -48,3 +48,4 @@ ones_zeros<-function(value,size){
   if(length(size)!=2  | !is.numeric(size)) stop("Size should have length of 2 and be numeric")
   matrix(value,nrow=size[1],ncol=size[2])
 }
+

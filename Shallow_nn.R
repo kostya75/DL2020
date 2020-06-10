@@ -5,10 +5,10 @@ library(openxlsx)
 library(ggplot2)
 library(magrittr)
 
-# X<-read.xlsx("PlanarX.xlsx")
-# Y<-read.xlsx("PlanarY.xlsx")
-# names(X)<-paste0("V",names(X))
-# names(Y)<-"color_cd"
+X<-read.xlsx("C:/ProjectExchange/PlanarX.xlsx")
+Y<-read.xlsx("C:/ProjectExchange/PlanarY.xlsx")
+names(X)<-paste0("V",names(X))
+names(Y)<-"color_cd"
 # 
 # ggplot(data=X)+geom_point(aes(x=V0,y=V1,color=as.factor(Y$color_cd)))+
 #   scale_color_manual(values = c("red","blue"))+
@@ -17,11 +17,11 @@ library(magrittr)
 
 set.seed(1)
 # transpose matrix so that each observation is one column
-# X<-t(as.matrix(X))
-# Y<-t(as.matrix(Y))
-# 
-# shape_X<-dim(X)
-# shape_Y<-dim(Y)
+X<-t(as.matrix(X))
+Y<-t(as.matrix(Y))
+
+shape_X<-dim(X)
+shape_Y<-dim(Y)
 
 # layer sizes
 
@@ -160,7 +160,7 @@ predict<-function(parameters,X){
   predictions<-cache[["A2"]]>.5
 }
 
-# parameters<-nn_model(X, Y, n_h=4, num_iterations = 10000, print_cost=F)
+# parameters<-nn_model(X, Y, n_h=4, num_iterations = 10000, print_cost=T)
 # predictions<-predict(parameters,X)
 # prop.table(table(predictions==Y))
 

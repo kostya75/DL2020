@@ -61,7 +61,7 @@ rel_forward_propagation<-function(X,parameters,leaky){
   Z1<-W1%*%X+b1
   A1<-RelU(Z1,leaky)
   Z2<-W2%*%A1+b2
-  A2<-Z2
+  A2<-sigmoid(Z2)
   #print(dim(A2)==c(1,dim(X)[2]))
   # cache
   return(list(Z1=Z1,A1=A1,Z2=Z2,A2=A2))
@@ -72,8 +72,8 @@ rel_forward_propagation<-function(X,parameters,leaky){
 
 rel_compute_cost<-function(A2,Y,leaky){
   m<-dim(Y)[2]
-  #cost<-unname((-1/m)*(log(A2)%*%t(Y)+log(1-A2)%*%(1-t(Y)))[1,1])
-  cost<-unname((1/(2*m))*sum((A2-Y)^2))
+  cost<-unname((-1/m)*(log(A2)%*%t(Y)+log(1-A2)%*%(1-t(Y)))[1,1])
+  #cost<-unname((1/(2*m))*sum((A2-Y)^2))
 }
 
 
@@ -91,7 +91,7 @@ rel_backward_propagation<-function(parameters,cache,X,Y,leaky){
   Z1<-cache$Z1
   Z2<-cache$Z2
   # Backward propagation: calculate dW1, db1, dW2, db2. 
-  dZ2<-(1/m)*(Z2-Y)
+  dZ2<-A2-Y
   dW2<-dZ2%*%t(A1)/m
   db2<-matrix(rowMeans(dZ2))
   #dZ1<-(t(W2)%*%dZ2)*(1-A1^2)
@@ -163,10 +163,9 @@ rel_nn_model<-function(X, Y, n_h, num_iterations = 10000, print_cost=F,learning_
 # predict
 rel_predict<-function(parameters,X,leaky=0){
   cache<-rel_forward_propagation(X,parameters,leaky)
-  predictions<-cache[["A2"]]
+  predictions<-cache[["A2"]]>.5
 }
 
-# parameters<-nn_model(X, Y, n_h=4, num_iterations = 10000, print_cost=F)
-# predictions<-predict(parameters,X)
-# prop.table(table(predictions==Y))
+
+
 
