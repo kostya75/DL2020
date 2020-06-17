@@ -1,0 +1,40 @@
+helper:
+list(A,cache=Z) sigmoid/relu(Z)
+dZ sigmoid/relu-back(dA, cach=Z)
+
+4.1 
+
+list(Z,A,W,b) linear_forward(A,W,b)
+- return Z and linear cache
+
+4.2 linear activation forward (activation wrapper around "linear forward")
+	input: A_prev, W, b, activation = "sigmoid"
+	output:
+		A (NEW)
+		linear cache: A_prev,W,b
+   		activation cache: Z to produce A
+
+
+4.3 (d) L_model_forward
+	input: X, parameters
+	output: 
+		AL (final layer)
+		caches: accumulation of:
+			linear cache: A_prev,W,b
+   			activation cache: Z to produce A
+
+
+5.0 cost
+	input: AL, Y
+	output: cost
+
+6.1 linear backward
+	input: dZ
+		cache: A,W,b
+	output: dA_prev, dW,db
+
+6.2 liner activation backward (activation wrapper arounf "linear backward")
+	input: dA
+		linear cache: A_prev,W,b
+   		activation cache: Z to produce A
+	output: dA_prev, dW,db

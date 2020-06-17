@@ -52,3 +52,12 @@ df_test_lr$Response<-(df_test_lr$Response>0)
 predicted_lr_test<-predictLR(optimal_train,df_test_lr[,-1])
 prop.table(table((predicted_lr_test>.5)==df_test_lr$Response))
 prop.table(table((predicted_lr_test>.5),df_test_lr$Response))
+
+
+#################################### L_layer
+layers_dims<-c(509,20,10,5,1)
+
+X<-featureNormalize2(t(X),F)
+X<-X$x
+X<-t(X)
+parameters<-L_layer_model(X, Y, learning_rate = 0.01, layers_dims, num_iterations = 2500, print_cost = T)
