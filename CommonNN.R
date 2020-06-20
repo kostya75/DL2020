@@ -15,8 +15,18 @@ relu_backward<-function(dA,cache,leaky=0){
 # relu forward
 relu<-function(Z,leaky=0){
   A<-structure(pmax(0,Z),dim=dim(Z))
-  A[Z<0]<-Z[Z<0]*leaky
+  #A[Z<0]<-Z[Z<0]*leaky
+  check_Z(Z)
+  A[Z<0]<-0
   return(list(A=A,cache=Z))
+}
+
+# debugging
+check_Z<-function(Z){
+  if(is.na(Z)){
+    browser()
+    stop("Z is na")
+  }
 }
 
 #Z<-matrix(c(1,2,-3,4,3,5,-1,-8),nrow=2,byrow=T)

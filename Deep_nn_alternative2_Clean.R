@@ -73,7 +73,7 @@ L_model_forward<-function(X, parameters){
   
   for (l in 1:(L-1)){
     A_prev<-A
-    A_cache<-linear_activation_forward(A_prev, parameters[[sprintf("W%s",l)]], parameters[[sprintf("b%s",l)]], activatio="relu")
+    A_cache<-linear_activation_forward(A_prev, parameters[[sprintf("W%s",l)]], parameters[[sprintf("b%s",l)]], activation="relu")
     A<-A_cache$A
     caches[[l]]<-A_cache$cache
   }
@@ -205,7 +205,7 @@ L_layer_model<-function(X, Y, layers_dims, learning_rate = 0.0075, num_iteration
     
     # Update parameters.
     parameters<-update_parameters(parameters, grads, learning_rate)
-    
+    print(i)
     # print cost
     if(print_cost & (i %% 100) ==0){
       print(cost)
