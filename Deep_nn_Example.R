@@ -31,8 +31,8 @@ test_x<-test_x_flatten/255L
 # train_x<-as.matrix(read.xlsx("Cat_x.xlsx",colNames = F,startRow = 2))
 # train_y<-as.matrix(read.xlsx("Cat_y.xlsx",colNames = F,startRow = 2))
 # 3. Model constants
-#layers_dims<-c(12288, 20, 7, 5, 1)
-layers_dims<-c(12288,1000,50,25,10,3,1)
+layers_dims<-c(12288,20, 7, 5, 1)
+#layers_dims<-c(12288,1000,50,25,10,3,1)
 
 # 4. Model: L-layer
 
@@ -66,12 +66,18 @@ layers_dims<-c(12288,1000,50,25,10,3,1)
 # }
 
 
-parameters<-L_layer_model(train_x, train_y, learning_rate = 0.009, layers_dims, num_iterations = 2000, print_cost = T)
+parameters<-L_layer_model(train_x, train_y, learning_rate = 0.0075, layers_dims, num_iterations = 2500, print_cost = T)
 
-predict_nn_L_layer<-function(X, parameters){
-  AL<-L_model_forward(X, parameters)[["AL"]]
-}
+# predict_nn_L_layer<-function(X, parameters){
+#   AL<-L_model_forward(X, parameters)[["AL"]]
+# }
 
+AL_test<-predict_nn_L_layer(test_x, parameters)
+
+table(test_y==(AL_test>.5))
+
+# with reg
+parameters<-L_layer_model_with_regularization(train_x, train_y, learning_rate = 0.0075, layers_dims, num_iterations = 2500, print_cost = T,lambd=0)
 AL_test<-predict_nn_L_layer(test_x, parameters)
 
 table(test_y==(AL_test>.5))

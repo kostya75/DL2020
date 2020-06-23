@@ -173,11 +173,7 @@ L_model_backward<-function(AL,Y,caches){
 # 6.4 Update parameters
 
 update_parameters<-function(parameters, grads, learning_rate){
-  L<-as.integer(length(parameters)/2)
-  for(l in 1:L){
-    parameters[[sprintf("W%s",l)]] = parameters[[sprintf("W%s",l)]] - learning_rate*grads[[l]][[sprintf("dW%s",l)]]
-    parameters[[sprintf("b%s",l)]] = parameters[[sprintf("b%s",l)]] - learning_rate*grads[[l]][[sprintf("db%s",l)]]
-  }
+ 
   return(parameters)
 }
 
