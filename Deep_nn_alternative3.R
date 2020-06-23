@@ -13,7 +13,7 @@ compute_cost_with_regularization<-function(AL, Y, parameters, lambd){
   L<-as.integer(length(parameters)/2)
   L2_component<-0
   for(l in 1:L){
-    L2_temp<-sum(parameters[[sprintf("W%s",1)]]^2)
+    L2_temp<-sum(parameters[[sprintf("W%s",l)]]^2)
     L2_component<-L2_component+L2_temp
   }
   L2_component<-L2_component*(lambd/(2*m))
@@ -31,7 +31,8 @@ linear_backward_with_regularization<-function(dZ,cache,lambd){
   m<-dim(A_prev)[2]
   
   ######### 3 equations
-  dW<-dZ%*%t(A_prev)/m+lambd/m*W
+  dW<-dZ%*%t(A_prev)/m+(lambd/m)*W
+  #dW<-dZ%*%t(A_prev)/m
   # broadcast only when using b in a formula
   #db_broadcast<-dim(b)[2]
   db<-matrix(rowSums(dZ),ncol=1,byrow=T)/m

@@ -27,7 +27,7 @@ X<-featureNormalize2(t(X),F)
 scaling_test<-X$scalingMatrix
 X<-X$x
 X<-t(X)
-parameters<-L_layer_model(X, Y, learning_rate = 0.02, layers_dims, num_iterations = 10000, print_cost = T)
+parameters<-L_layer_model(X, Y, learning_rate = 0.02, layers_dims, num_iterations = 2000, print_cost = T)
 #parameters_3136<-parameters
 #parameters<-parameters_3136
 
@@ -37,7 +37,29 @@ prop.table(table(Y==(AL_train>.5)))
 prop.table(table(Y,(AL_train>.5)))
 
 # test set
-X_test<-t((t(X_test)-scaling_test[rep(1,ncol(X_test)),])/scaling_test[rep(2,ncol(X_test)),])
+#X_test<-t((t(X_test)-scaling_test[rep(1,ncol(X_test)),])/scaling_test[rep(2,ncol(X_test)),])
+# mus<-scalingMatrix[rep(1,nrow(X)),]
+# sds<-scalingMatrix[rep(2,nrow(X)),]
+
+
+AL_test<-predict_nn_L_layer(X_test, parameters)
+
+prop.table(table(Y_test==(AL_test>.5)))
+prop.table(table(Y_test,(AL_test>.5)))
+
+
+######################### with REGULArizatio
+parameters<-L_layer_model_with_regularization(X, Y, learning_rate = 0.02, layers_dims, num_iterations = 3000, print_cost = T,lambd = .1)
+#parameters_3136<-parameters
+#parameters<-parameters_3136
+
+AL_train<-predict_nn_L_layer(X, parameters)
+
+prop.table(table(Y==(AL_train>.5)))
+prop.table(table(Y,(AL_train>.5)))
+
+# test set
+#X_test<-t((t(X_test)-scaling_test[rep(1,ncol(X_test)),])/scaling_test[rep(2,ncol(X_test)),])
 # mus<-scalingMatrix[rep(1,nrow(X)),]
 # sds<-scalingMatrix[rep(2,nrow(X)),]
 

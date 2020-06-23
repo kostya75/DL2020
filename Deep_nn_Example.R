@@ -77,7 +77,14 @@ AL_test<-predict_nn_L_layer(test_x, parameters)
 table(test_y==(AL_test>.5))
 
 # with reg
-parameters<-L_layer_model_with_regularization(train_x, train_y, learning_rate = 0.0075, layers_dims, num_iterations = 2500, print_cost = T,lambd=0)
-AL_test<-predict_nn_L_layer(test_x, parameters)
+parameters<-L_layer_model_with_regularization(train_x, train_y, learning_rate = 0.0075, layers_dims, num_iterations = 2500, print_cost = T,lambd=0.1)
 
+cat("test\n")
+AL_test<-predict_nn_L_layer(test_x, parameters)
 table(test_y==(AL_test>.5))
+
+cat("train\n")
+AL_train<-predict_nn_L_layer(train_x, parameters)
+table(train_y==(AL_train>.5))
+
+sum(W3_no_reg>parameters[["W3"]])
