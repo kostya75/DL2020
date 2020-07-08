@@ -1,0 +1,34 @@
+
+(Batch) Gradient Descent:
+X = data_input
+Y = labels
+parameters = initialize_parameters(layers_dims)
+for i in range(0, num_iterations):
+    # Forward propagation
+    a, caches = forward_propagation(X, parameters)
+    # Compute cost.
+    cost += compute_cost(a, Y)
+    # Backward propagation.
+    grads = backward_propagation(a, caches, parameters)
+    # Update parameters.
+    parameters = update_parameters(parameters, grads)
+Stochastic Gradient Descent:
+X = data_input
+Y = labels
+parameters = initialize_parameters(layers_dims)
+for i in range(0, num_iterations):
+    for j in range(0, m):
+        # Forward propagation
+        a, caches = forward_propagation(X[:,j], parameters)
+        # Compute cost
+        cost += compute_cost(a, Y[:,j])
+        # Backward propagation
+        grads = backward_propagation(a, caches, parameters)
+        # Update parameters.
+        parameters = update_parameters(parameters, grads)
+        
+        
+# Mini Batch gradien descent :
+
+1. Shuffle Xs and Ys
+2. partition (64/128/256/512/1024) last one will be smallr but that's OK
