@@ -1,16 +1,36 @@
 #https://tensorflow.rstudio.com/tutorials/beginners/
 #install.packages("tensorflow")
+# My workaround:
+#   I have copied the following files
+# 
+# libcrypto-1_1-x64.*
+#   libssl-1_1-x64.*
+#   from D:\Anaconda3\Library\bin to D:\Anaconda3\DLLs.
+
+#https://github.com/conda/conda/issues/9746
+
+#install.packages("reticulate")
+#install.packages("keras")
+
 # library(tensorflow)
 # install_tensorflow()
 #if(.Platform$OS.type == "windows") 
-Sys.setenv(PATH= paste("C:/Users/kmingoulin/Anaconda3/envs/r-tensorflow/Library/bin",Sys.getenv()["PATH"],sep=";"))
+if (dir.exists("C:/Users/k_min")){
+  Sys.setenv(PATH= paste("C:/Users/k_min/Anaconda3/envs/r-tensorflow/Library/bin",Sys.getenv()["PATH"],sep=";"))
+} else {
+  Sys.setenv(PATH= paste("C:/Users/kmingoulin/Anaconda3/envs/r-tensorflow/Library/bin",Sys.getenv()["PATH"],sep=";"))
+}
+#
+#
+
 library(reticulate)
 library(tensorflow)
+#install_tensorflow()
 # tf$constant("Hellow Tensorflow")
-# 
-# install.packages("keras")
+
 
 library(keras)
+
 
 config <- py_config()
 config$numpy
@@ -50,4 +70,6 @@ head(predictions, 2)
 
 model %>% 
   evaluate(mnist$test$x, mnist$test$y, verbose = 0)
-# np<-reticulate::import("numpy")
+
+model %>% 
+  evaluate(mnist$train$x, mnist$train$y, verbose = 0)
